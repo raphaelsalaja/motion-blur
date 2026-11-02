@@ -1,0 +1,62 @@
+{
+  "name": "@web-kits/motion-blur",
+  "version": "0.1.0",
+  "description": "Motion blur for moving DOM elements, sized from speed, frame time and shutter angle.",
+  "license": "MIT",
+  "author": "Raphael Salaja",
+  "homepage": "https://www.raphaelsalaja.com/work/motion-blur",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raphaelsalaja/motion-blur.git",
+    "directory": "packages/motion-blur"
+  },
+  "bugs": "https://github.com/raphaelsalaja/motion-blur/issues",
+  "type": "module",
+  "sideEffects": false,
+  "keywords": [
+    "motion blur",
+    "animation",
+    "css",
+    "react",
+    "echo",
+    "shutter"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./react": "./src/react.tsx"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./react": {
+        "types": "./dist/react.d.ts",
+        "default": "./dist/react.js"
+      }
+    }
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "react": "19.3.1",
+    "typescript": "^7.0.2"
+  },
+  "peerDependencies": {
+    "react": ">=19"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  }
+}
