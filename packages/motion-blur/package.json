@@ -18,12 +18,14 @@
     "animation",
     "css",
     "react",
+    "vue",
     "echo",
     "shutter"
   ],
   "exports": {
     ".": "./src/index.ts",
-    "./react": "./src/react.tsx"
+    "./react": "./src/react.tsx",
+    "./vue": "./src/vue.ts"
   },
   "files": [
     "dist"
@@ -38,6 +40,10 @@
       "./react": {
         "types": "./dist/react.d.ts",
         "default": "./dist/react.js"
+      },
+      "./vue": {
+        "types": "./dist/vue.d.ts",
+        "default": "./dist/vue.js"
       }
     }
   },
@@ -49,13 +55,18 @@
   "devDependencies": {
     "@types/react": "^19.3.0",
     "react": "19.3.1",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vue": "^3.5.44"
   },
   "peerDependencies": {
-    "react": ">=19"
+    "react": ">=19",
+    "vue": ">=3.3"
   },
   "peerDependenciesMeta": {
     "react": {
+      "optional": true
+    },
+    "vue": {
       "optional": true
     }
   }

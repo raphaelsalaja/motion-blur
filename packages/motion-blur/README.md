@@ -66,6 +66,58 @@ import { MotionBlurProvider } from "@web-kits/motion-blur/react";
 
 `shutter={0}` on a provider turns off every blur inside it.
 
+### Vue
+
+```vue
+<script setup>
+import { useTemplateRef } from "vue";
+import { useMotionBlur } from "@web-kits/motion-blur/vue";
+
+const card = useTemplateRef("card");
+const blur = useMotionBlur(card, { shutter: 180 });
+</script>
+
+<template>
+  <motion.div ref="card" :animate="{ x: open ? 320 : 0 }">
+    <div class="card-face">…</div>
+  </motion.div>
+</template>
+```
+
+The target can be an element or a component, in which case its root element is blurred. Options can be a plain object, a ref, a getter or a reactive object, and the current blur picks up changes without starting over:
+
+```ts
+const shutter = ref(180);
+useMotionBlur(card, () => ({ shutter: shutter.value }));
+```
+
+There's also a component that sets up the host and layer for you. It emits `frame` with the streak length, and exposes `render`, `start` and `clear` through a template ref:
+
+```vue
+<script setup>
+import { MotionBlur } from "@web-kits/motion-blur/vue";
+</script>
+
+<template>
+  <MotionBlur class="card" :shutter="360">…</MotionBlur>
+</template>
+```
+
+`MotionBlurProvider` works the same as in React:
+
+```vue
+<script setup>
+import { echo } from "@web-kits/motion-blur";
+import { MotionBlurProvider } from "@web-kits/motion-blur/vue";
+</script>
+
+<template>
+  <MotionBlurProvider :technique="echo({ spacing: 1 })" :shutter="270">
+    <App />
+  </MotionBlurProvider>
+</template>
+```
+
 ## Options
 
 | Option          | Default     |                                                                             |
@@ -74,7 +126,7 @@ import { MotionBlurProvider } from "@web-kits/motion-blur/react";
 | `shutter`       | `180`       | Shutter angle in degrees.                                                   |
 | `reducedMotion` | `"user"`    | `"user"` drops the blur under `prefers-reduced-motion`. `"never"` keeps it. |
 | `onFrame`       |             | Called every frame with the streak length in px.                            |
-| `layer`         | first child | The element that holds the visuals. Not available in React.                 |
+| `layer`         | first child | The element that holds the visuals. Not available in React or Vue.          |
 
 **Shutter.** At 180° the streak covers half of each frame's travel, and at 360° it covers all of it, which closes the gaps that make fast motion strobe. 0 turns the blur off. Values past 360 draw more than one frame's travel, so an animation played at a quarter of its speed with `shutter: 720` keeps the streak it had at full speed.
 
