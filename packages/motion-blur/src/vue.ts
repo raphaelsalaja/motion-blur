@@ -21,6 +21,7 @@ import {
   motionBlur,
   type Technique,
 } from "./core.ts";
+import { echo } from "./techniques/echo.ts";
 
 export type MotionBlurDefaults = Omit<MotionBlurOptions, "layer" | "onFrame">;
 
@@ -77,6 +78,9 @@ export type MotionBlurTarget =
   | undefined;
 
 function resolve(target: MotionBlurTarget) {
+  // There is no `HTMLElement` during server rendering, and the blur only
+  // attaches in the browser anyway.
+  if (typeof HTMLElement === "undefined") return null;
   const el = target && "$el" in target ? target.$el : target;
   return el instanceof HTMLElement ? el : null;
 }
@@ -117,7 +121,14 @@ export function useMotionBlur(
     () => {
       latest = options();
       const { onFrame: _, ...rest } = latest;
-      instance?.set(rest);
+      // `set` keeps the current value for anything left out, so an option
+      // that goes back to undefined has to be reset to its default here.
+      instance?.set({
+        technique: echo(),
+        shutter: 180,
+        reducedMotion: "user",
+        ...rest,
+      });
     },
     { flush: "post" },
   );

@@ -70,10 +70,10 @@ import { MotionBlurProvider } from "@web-kits/motion-blur/react";
 
 ```vue
 <script setup>
-import { useTemplateRef } from "vue";
+import { ref } from "vue";
 import { useMotionBlur } from "@web-kits/motion-blur/vue";
 
-const card = useTemplateRef("card");
+const card = ref(null);
 const blur = useMotionBlur(card, { shutter: 180 });
 </script>
 
